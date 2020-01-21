@@ -178,7 +178,7 @@ func SplitExpression(expression string) FilterNode {
 
 	} else {
 		parts := strings.Split(expression, "==")
-		fmt.Printf("parts: [%s|%s]\n", parts[0], parts[1])
+		fmt.Printf("parts: [%s|%s]\n", strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1]))
 		return EQ{
 			Key: parts[0],
 			Value: parts[1],
