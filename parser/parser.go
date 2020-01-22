@@ -8,8 +8,8 @@ import (
 )
 
 type IPTablesFilters struct {
-	ULFilters []string
-	DLFilters []string
+	ULFilters []string	`json:"ul_filters"`
+	DLFilters []string `json:"dl_filters"`
 }
 
 type FilterNode interface {
@@ -17,8 +17,8 @@ type FilterNode interface {
 }
 
 type AND struct {
-	Left FilterNode
-	Right FilterNode
+	Left FilterNode `json:"left_node"`
+	Right FilterNode `json:"right_node"`
 }
 
 func (obj AND) Eval() IPTablesFilters {
@@ -27,20 +27,24 @@ func (obj AND) Eval() IPTablesFilters {
 	outputFilters := IPTablesFilters{}
 	for _, ulFilterLeft := range(filtersLeft.ULFilters) {
 		for _, ulFilterRight := range(filtersRight.ULFilters) {
-			outputFilters.ULFilters = append(outputFilters.ULFilters, strings.Join([]string{ulFilterLeft, ulFilterRight}, " "))
+			filter := strings.Join([]string{ulFilterLeft, ulFilterRight}, " ")
+			cleaned_filter := strings.ReplaceAll(filter, "  ", " ") // Hacky way to remove double spaces that are showing up in some strings for an unknown reason
+			outputFilters.ULFilters = append(outputFilters.ULFilters, cleaned_filter)
 		}
 	}
 	for _, dlFilterLeft := range(filtersLeft.DLFilters) {
 		for _, dlFilterRight := range(filtersRight.DLFilters) {
-			outputFilters.DLFilters = append(outputFilters.DLFilters, strings.Join([]string{dlFilterLeft, dlFilterRight}, " "))
+			filter := strings.Join([]string{dlFilterLeft, dlFilterRight}, " ")
+			cleaned_filter := strings.ReplaceAll(filter, "  ", " ") // Hacky way to remove double spaces that are showing up in some strings for an unknown reason
+			outputFilters.DLFilters = append(outputFilters.DLFilters, cleaned_filter)
 		}
 	}
 	return outputFilters
 }
 
 type OR struct {
-	Left FilterNode
-	Right FilterNode
+	Left FilterNode `json:"left_node"`
+	Right FilterNode `json:"right_node"`
 }
 
 func (obj OR) Eval() IPTablesFilters {
@@ -52,7 +56,7 @@ func (obj OR) Eval() IPTablesFilters {
 }
 
 type NOT struct {
-	Item FilterNode
+	Item FilterNode `json:"item"`
 }
 
 func (obj NOT) Eval() IPTablesFilters {
@@ -70,8 +74,8 @@ func (obj NOT) Eval() IPTablesFilters {
 }
 
 type EQ struct {
-	Key string
-	Value string
+	Key string `json:"key"`
+	Value string `json:"value"`
 }
 
 // Leaf nodes. In this case all leafs are always equals, never OR, AND, NOT
@@ -123,7 +127,6 @@ func (obj EQ) Eval() IPTablesFilters {
 }
 
 type FilterParser struct {
-	InputExpression string
 }
 
 func (fp *FilterParser) Parse(expression string) (filterTree IPTablesFilters)  {
@@ -133,7 +136,8 @@ func (fp *FilterParser) Parse(expression string) (filterTree IPTablesFilters)  {
 	// convert the string to all lower case
 	expression = strings.ToLower(expression)
 	filterParser := SplitExpression(expression)
-	return filterParser.Eval()
+	filterTree = filterParser.Eval()
+	return filterTree
 }
 
 func SplitExpression(expression string) FilterNode {
@@ -141,7 +145,7 @@ func SplitExpression(expression string) FilterNode {
 	totalNonLeafOperators := strings.Count(expression, " and ") + strings.Count(expression, " or ")
 	if totalNonLeafOperators > 0 {
 		// Continue to break down
-		center := int(math.Floor(float64(totalNonLeafOperators / 2)))
+		center := int(math.Ceil(float64(totalNonLeafOperators) / 2))
 		if center == 0 { center = 1}
 		operator := "and"
 		marker := 0
@@ -151,25 +155,22 @@ func SplitExpression(expression string) FilterNode {
 			nextOr := strings.Index(expression[marker:], " or ")
 			if (nextOr != -1) && (nextAnd == -1 || nextOr < nextAnd) {
 				location = nextOr
+				marker = nextOr + 4
 				operator = "or"
 			} else if (nextAnd != -1) && (nextOr == -1 || nextAnd < nextOr) {
 				location = nextAnd
+				marker = nextAnd + 5
 				operator = "and"
 			} else {
 				log.Fatal("Oops, failed to parse string")
 			}
 		}
-		fmt.Printf("location: %d\n", location)
 		if operator == "and" {
-			fmt.Printf("AND left: %s\n", expression[:location])
-			fmt.Printf("AND Right: %s\n", expression[location+5:])
 			return AND{
 				SplitExpression(expression[:location]),
 				SplitExpression(expression[location+5:]),
 			}
 		} else if operator == "or" {
-			fmt.Printf("OR left: %s\n", expression[:location])
-			fmt.Printf("OR Right: %s\n", expression[location+4:])
 			return OR{
 				SplitExpression(expression[:location]),
 				SplitExpression(expression[location+4:]),
@@ -177,11 +178,23 @@ func SplitExpression(expression string) FilterNode {
 		}
 
 	} else {
+		negate := strings.Contains(expression,"not")
 		parts := strings.Split(expression, "==")
-		fmt.Printf("parts: [%s|%s]\n", strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1]))
-		return EQ{
-			Key: parts[0],
-			Value: parts[1],
+		parts[0] = strings.TrimSpace(parts[0])
+		parts[1] = strings.TrimSpace(parts[1])
+		if negate {
+			parts[0] = strings.TrimSpace(strings.Replace(parts[0], "not", "", 1))
+			return NOT {
+				EQ {
+					Key: parts[0],
+					Value: parts[1],
+				},
+			}
+		} else {
+			return EQ{
+				Key: parts[0],
+				Value: parts[1],
+			}
 		}
 	}
 
