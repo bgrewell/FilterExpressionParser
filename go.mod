@@ -1,3 +1,3 @@
-module FilterParser
+module FilterExpressionParser
 
 go 1.13
