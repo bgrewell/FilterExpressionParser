@@ -1,7 +1,7 @@
 package main
 
 import (
-	"FilterExpressionParser/parser"
+	"github.com/BGrewell/FilterExpressionParser/parser"
 	"fmt"
 )
 
