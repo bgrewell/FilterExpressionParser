@@ -120,6 +120,8 @@ func (obj EQ) Eval() IPTablesFilters {
 	case "ip.dscp":
 		ulFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
 		dlFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
+	default:
+		log.Fatalf("Unrecognized field: %s", obj.Key)
 	}
 	filters.ULFilters = []string{ulFilter}
 	filters.DLFilters = []string{dlFilter}
