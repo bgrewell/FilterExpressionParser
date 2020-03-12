@@ -2,7 +2,6 @@ package parser
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"regexp"
 	"strconv"
@@ -186,7 +185,7 @@ func (obj EQ) Eval() (filters IPTablesFilters, err error) {
 		ulFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
 		dlFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
 	default:
-		log.Fatalf("Unrecognized field: %s", obj.Key)
+		return IPTablesFilters{}, fmt.Errorf("unrecognized field: %s", obj.Key)
 	}
 	filters.ULFilters = []string{ulFilter}
 	filters.DLFilters = []string{dlFilter}
@@ -234,7 +233,7 @@ func SplitExpression(expression string) (FilterNode, error) {
 				marker = nextAnd + 5
 				operator = "and"
 			} else {
-				log.Fatal("Oops, failed to parse string")
+				return nil, fmt.Errorf("failed to parse filter")
 			}
 		}
 		if operator == "and" {
