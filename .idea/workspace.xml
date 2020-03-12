@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78f11168-4666-43cb-8220-5f4a181044d3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser/parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.go" afterDir="false" />
     </list>
@@ -35,6 +34,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -104,6 +104,10 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixed error handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed error handling" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
     <proxy>direct</proxy>
@@ -113,6 +117,10 @@
       <screen x="0" y="27" width="3440" height="1356" />
     </state>
     <state x="1315" y="366" width="800" height="684" key="#Notifications/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579644294752" />
+    <state x="2414" y="378" width="921" height="819" key="CommitChangelistDialog2" timestamp="1584039573984">
+      <screen x="0" y="27" width="3840" height="1519" />
+    </state>
+    <state x="2414" y="378" width="921" height="819" key="CommitChangelistDialog2/0.27.3840.1519@0.27.3840.1519" timestamp="1584039573984" />
     <state x="1529" y="600" width="371" height="217" key="Github.ShareDialog" timestamp="1579644280602">
       <screen x="0" y="27" width="3440" height="1356" />
     </state>
@@ -149,6 +157,10 @@
       <screen x="0" y="27" width="3440" height="1356" />
     </state>
     <state width="3394" height="461" key="GridCell.Tab.1.right/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579707140753" />
+    <state x="2475" y="522" width="800" height="530" key="Vcs.Push.Dialog.v2" timestamp="1584039575973">
+      <screen x="0" y="27" width="3840" height="1519" />
+    </state>
+    <state x="2475" y="522" width="800" height="530" key="Vcs.Push.Dialog.v2/0.27.3840.1519@0.27.3840.1519" timestamp="1584039575973" />
     <state x="100" y="127" width="3240" height="1156" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1579705257465">
       <screen x="0" y="27" width="3440" height="1356" />
     </state>

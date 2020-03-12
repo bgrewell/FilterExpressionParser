@@ -262,6 +262,9 @@ func SplitExpression(expression string) (FilterNode, error) {
 	} else {
 		negate := strings.Contains(expression, "not")
 		parts := strings.Split(expression, "==")
+		if len(parts) < 2 {
+			return nil, fmt.Errorf("filter expression '%s' is not complete", expression)
+		}
 		parts[0] = strings.TrimSpace(parts[0])
 		parts[1] = strings.TrimSpace(parts[1])
 		if negate {
