@@ -15,7 +15,7 @@ type IPTablesFilters struct {
 }
 
 type FilterNode interface {
-	Eval() IPTablesFilters
+	Eval() (filters IPTablesFilters, err error)
 }
 
 type AND struct {
@@ -23,9 +23,15 @@ type AND struct {
 	Right FilterNode `json:"right_node"`
 }
 
-func (obj AND) Eval() IPTablesFilters {
-	filtersLeft := obj.Left.Eval()
-	filtersRight := obj.Right.Eval()
+func (obj AND) Eval() (filters IPTablesFilters, err error) {
+	filtersLeft, err := obj.Left.Eval()
+	if err != nil {
+		return filtersLeft, err
+	}
+	filtersRight, err := obj.Right.Eval()
+	if err != nil {
+		return filtersRight, err
+	}
 	outputFilters := IPTablesFilters{}
 	for _, ulFilterLeft := range filtersLeft.ULFilters {
 		for _, ulFilterRight := range filtersRight.ULFilters {
@@ -41,7 +47,7 @@ func (obj AND) Eval() IPTablesFilters {
 			outputFilters.DLFilters = append(outputFilters.DLFilters, cleaned_filter)
 		}
 	}
-	return outputFilters
+	return outputFilters, err
 }
 
 type OR struct {
@@ -49,21 +55,30 @@ type OR struct {
 	Right FilterNode `json:"right_node"`
 }
 
-func (obj OR) Eval() IPTablesFilters {
-	filtersLeft := obj.Left.Eval()
-	filtersRight := obj.Right.Eval()
+func (obj OR) Eval() (filters IPTablesFilters, err error) {
+	filtersLeft, err := obj.Left.Eval()
+	if err != nil {
+		return filtersLeft, err
+	}
+	filtersRight, err := obj.Right.Eval()
+	if err != nil {
+		return filtersRight, err
+	}
 	filtersLeft.ULFilters = append(filtersLeft.ULFilters, filtersRight.ULFilters...)
 	filtersLeft.DLFilters = append(filtersLeft.DLFilters, filtersRight.DLFilters...)
-	return filtersLeft
+	return filtersLeft, err
 }
 
 type NOT struct {
 	Item FilterNode `json:"item"`
 }
 
-func (obj NOT) Eval() IPTablesFilters {
+func (obj NOT) Eval() (filters IPTablesFilters, err error) {
 	//TODO: This is naive but just assume we want to negate the furthest right parameter
-	filters := obj.Item.Eval()
+	filters, err = obj.Item.Eval()
+	if err != nil {
+		return filters, err
+	}
 	for idx, filter := range filters.ULFilters {
 		insertionPoint := strings.LastIndex(filter, " -")
 		filters.ULFilters[idx] = fmt.Sprintf("%s !%s", filter[:insertionPoint], filter[insertionPoint:])
@@ -72,7 +87,7 @@ func (obj NOT) Eval() IPTablesFilters {
 		insertionPoint := strings.LastIndex(filter, " -")
 		filters.DLFilters[idx] = fmt.Sprintf("%s !%s", filter[:insertionPoint], filter[insertionPoint:])
 	}
-	return filters
+	return filters, err
 }
 
 type EQ struct {
@@ -81,57 +96,93 @@ type EQ struct {
 }
 
 // Leaf nodes. In this case all leafs are always equals, never OR, AND, NOT
-func (obj EQ) Eval() IPTablesFilters {
-	filters := IPTablesFilters{}
+func (obj EQ) Eval() (filters IPTablesFilters, err error) {
+	filters = IPTablesFilters{}
 	ulFilter := ""
 	dlFilter := ""
 	switch strings.ToLower(obj.Key) {
 	case "srv.ip":
-		validateIPAddress(obj.Value)
+		err = validateIPAddress(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-d %s", obj.Value)
 		dlFilter = fmt.Sprintf("-s %s", obj.Value)
 	case "cli.ip":
-		validateIPAddress(obj.Value)
+		err = validateIPAddress(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-s %s", obj.Value)
 		dlFilter = fmt.Sprintf("-d %s", obj.Value)
 	case "srv.tcp.port":
-		validatePortNumber(obj.Value)
+		err = validatePortNumber(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-p tcp --dport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p tcp --sport %s", obj.Value)
 	case "cli.tcp.port":
-		validatePortNumber(obj.Value)
+		err = validatePortNumber(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-p tcp --sport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p tcp --dport %s", obj.Value)
 	case "srv.udp.port":
-		validatePortNumber(obj.Value)
+		err = validatePortNumber(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-p udp --dport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p udp --sport %s", obj.Value)
 	case "cli.udp.port":
-		validatePortNumber(obj.Value)
+		err = validatePortNumber(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-p udp --sport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p udp --dport %s", obj.Value)
 	case "srv.icmp.port":
-		validatePortNumber(obj.Value)
+		err = validatePortNumber(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-p icmp --dport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p icmp --sport %s", obj.Value)
 	case "cli.icmp.port":
-		validatePortNumber(obj.Value)
+		err = validatePortNumber(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-p icmp --sport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p icmp --dport %s", obj.Value)
 	case "proto.icmp":
-		validateEmptyValue(obj.Key, obj.Value)
+		err = validateEmptyValue(obj.Key, obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprint("-p icmp")
 		dlFilter = fmt.Sprint("-p icmp")
 	case "proto.tcp":
-		validateEmptyValue(obj.Key, obj.Value)
+		err = validateEmptyValue(obj.Key, obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprint("-p tcp")
 		dlFilter = fmt.Sprint("-p tcp")
 	case "proto.udp":
-		validateEmptyValue(obj.Key, obj.Value)
+		err = validateEmptyValue(obj.Key, obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprint("-p udp")
 		dlFilter = fmt.Sprint("-p udp")
 	case "ip.dscp":
-		validateDSCPValue(obj.Value)
+		err = validateDSCPValue(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
 		ulFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
 		dlFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
 	default:
@@ -139,24 +190,27 @@ func (obj EQ) Eval() IPTablesFilters {
 	}
 	filters.ULFilters = []string{ulFilter}
 	filters.DLFilters = []string{dlFilter}
-	return filters
+	return filters, err
 }
 
 type FilterParser struct {
 }
 
-func (fp *FilterParser) Parse(expression string) (filterTree IPTablesFilters) {
+func (fp *FilterParser) Parse(expression string) (filterTree IPTablesFilters, err error) {
 	//TODO: There are a lot of issues with how this handles parsing. Need to make it follow common rules when handling
 	// parsing binary trees
 
 	// convert the string to all lower case
 	expression = strings.ToLower(expression)
-	filterParser := SplitExpression(expression)
-	filterTree = filterParser.Eval()
-	return filterTree
+	filterParser, err := SplitExpression(expression)
+	if err != nil {
+		return IPTablesFilters{}, err
+	}
+	filterTree, err = filterParser.Eval()
+	return filterTree, err
 }
 
-func SplitExpression(expression string) FilterNode {
+func SplitExpression(expression string) (FilterNode, error) {
 	// Get a count of the 'and' and 'or' operators. We don't care about 'not' and 'eq' here
 	totalNonLeafOperators := strings.Count(expression, " and ") + strings.Count(expression, " or ")
 	if totalNonLeafOperators > 0 {
@@ -184,15 +238,25 @@ func SplitExpression(expression string) FilterNode {
 			}
 		}
 		if operator == "and" {
+			left, err := SplitExpression(expression[:location])
+			if err != nil {
+				return nil, err
+			}
+			right, err := SplitExpression(expression[location+5:])
 			return AND{
-				SplitExpression(expression[:location]),
-				SplitExpression(expression[location+5:]),
-			}
+				left,
+				right,
+			}, err
 		} else if operator == "or" {
-			return OR{
-				SplitExpression(expression[:location]),
-				SplitExpression(expression[location+4:]),
+			left, err := SplitExpression(expression[:location])
+			if err != nil {
+				return nil, err
 			}
+			right, err := SplitExpression(expression[location+4:])
+			return OR{
+				left,
+				right,
+			}, nil
 		}
 
 	} else {
@@ -207,45 +271,45 @@ func SplitExpression(expression string) FilterNode {
 					Key:   parts[0],
 					Value: parts[1],
 				},
-			}
+			}, nil
 		} else {
 			return EQ{
 				Key:   parts[0],
 				Value: parts[1],
-			}
+			}, nil
 		}
 	}
 
-	return EQ{
-		"ERROR",
-		"ERROR",
-	}
+	return nil, fmt.Errorf("failed to split expression")
 }
 
-func validateIPAddress(ip string) {
+func validateIPAddress(ip string) error {
 	ipVerifier := regexp.MustCompile(`^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$`)
 	if !ipVerifier.MatchString(ip) {
-		log.Fatalf("Failed to validate ip address: %s", ip)
+		return fmt.Errorf("Failed to validate ip address: %s", ip)
 	}
-
+	return nil
 }
 
-func validatePortNumber(port string) {
+func validatePortNumber(port string) error {
 	val, err := strconv.ParseInt(port, 10, 64)
 	if err != nil || val < 0 || val > 65535 {
-		log.Fatalf("Failed parsing port number: %s [valid values are 0-65535]", port)
+		return fmt.Errorf("Failed parsing port number: %s [valid values are 0-65535]", port)
 	}
+	return nil
 }
 
-func validateEmptyValue(field, value string) {
+func validateEmptyValue(field, value string) error {
 	if value != "" {
-		log.Fatalf("Field %s does not take a value, value passed was: %s", field, value)
+		return fmt.Errorf("Field %s does not take a value, value passed was: %s", field, value)
 	}
+	return nil
 }
 
-func validateDSCPValue(value string) {
+func validateDSCPValue(value string) error {
 	val, err := strconv.ParseInt(value, 10, 64)
 	if err != nil || val < 0 || val > 63 {
-		log.Fatalf("Failed parsing dscp number: %s [valid values are 0-63]", value)
+		return fmt.Errorf("Failed parsing dscp number: %s [valid values are 0-63]", value)
 	}
+	return nil
 }
