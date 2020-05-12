@@ -157,24 +157,12 @@ func (obj EQ) Eval() (filters IPTablesFilters, err error) {
 		ulFilter = fmt.Sprintf("-p icmp --sport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p icmp --dport %s", obj.Value)
 	case "proto.icmp":
-		err = validateEmptyValue(obj.Key, obj.Value)
-		if err != nil {
-			return IPTablesFilters{}, err
-		}
 		ulFilter = fmt.Sprint("-p icmp")
 		dlFilter = fmt.Sprint("-p icmp")
 	case "proto.tcp":
-		err = validateEmptyValue(obj.Key, obj.Value)
-		if err != nil {
-			return IPTablesFilters{}, err
-		}
 		ulFilter = fmt.Sprint("-p tcp")
 		dlFilter = fmt.Sprint("-p tcp")
 	case "proto.udp":
-		err = validateEmptyValue(obj.Key, obj.Value)
-		if err != nil {
-			return IPTablesFilters{}, err
-		}
 		ulFilter = fmt.Sprint("-p udp")
 		dlFilter = fmt.Sprint("-p udp")
 	case "ip.dscp":
