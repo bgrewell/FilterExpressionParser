@@ -179,6 +179,22 @@ func (obj EQ) Eval() (filters IPTablesFilters, err error) {
 		}
 		ulFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
 		dlFilter = fmt.Sprintf("-m dscp --dscp %s", obj.Value)
+	case "conn.bytes":
+		err = validateRangeValue(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
+		// todo: need to figure out how/if the connbytes-dir would be implemented
+		ulFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode bytes --connbytes %s", obj.Value)
+		dlFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode bytes --connbytes %s", obj.Value)
+	case "conn.packets":
+		err = validateRangeValue(obj.Value)
+		if err != nil {
+			return IPTablesFilters{}, err
+		}
+		// todo: need to figure out how/if the connbytes-dir would be implemented
+		ulFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode packets --connbytes %s", obj.Value)
+		dlFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode packets --connbytes %s", obj.Value)
 	default:
 		return IPTablesFilters{}, fmt.Errorf("unrecognized field: %s", obj.Key)
 	}
@@ -204,9 +220,10 @@ func (fp *FilterParser) Parse(expression string) (filterTree IPTablesFilters, er
 	return filterTree, err
 }
 
+//TODO: There is a problem with the recusrive splitting where we are not doing it correctly in some cases
 func SplitExpression(expression string) (FilterNode, error) {
 	// Get a count of the 'and' and 'or' operators. We don't care about 'not' and 'eq' here
-	totalNonLeafOperators := strings.Count(expression, " and ") + strings.Count(expression, " or ")
+	totalNonLeafOperators := strings.Count(expression, " and ") + strings.Count(expression, " or ") // todo: these should be regex so we don't have to depend on spaces
 	if totalNonLeafOperators > 0 {
 		// Continue to break down
 		center := int(math.Ceil(float64(totalNonLeafOperators) / 2))
@@ -307,6 +324,26 @@ func validateDSCPValue(value string) error {
 	val, err := strconv.ParseInt(value, 10, 64)
 	if err != nil || val < 0 || val > 63 {
 		return fmt.Errorf("Failed parsing dscp number: %s [valid values are 0-63]", value)
+	}
+	return nil
+}
+
+func validateRangeValue(value string) error {
+	rangeVerifier := regexp.MustCompile(`^\d+:\d+`)
+	if !rangeVerifier.MatchString(value) {
+		return fmt.Errorf("Failed to find a valid range value: %s", value)
+	}
+	parts := strings.Split(value, ":")
+	low, err := strconv.ParseInt(parts[0], 10, 64)
+	if err != nil {
+		return fmt.Errorf("Error parsing low interval value: %s", err)
+	}
+	high, err := strconv.ParseInt(parts[1], 10, 64)
+	if err != nil {
+		return fmt.Errorf("Error parsing high interval value: %s", err)
+	}
+	if low > high {
+		return fmt.Errorf("Low interval value (%d) must be less than the high interval value (%d)", low, high)
 	}
 	return nil
 }

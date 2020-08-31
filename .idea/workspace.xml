@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="78f11168-4666-43cb-8220-5f4a181044d3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser/parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +21,11 @@
   </component>
   <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
@@ -50,7 +56,7 @@
       <recent name="$PROJECT_DIR$/parser" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build FilterExpressionParser">
+  <component name="RunManager" selected="Go Build.go build github.com/BGrewell/FilterExpressionParser">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="FilterExpressionParser" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -74,6 +80,14 @@
       <package value="FilterParser" />
       <method v="2" />
     </configuration>
+    <configuration name="go build github.com/BGrewell/FilterExpressionParser" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="FilterExpressionParser" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="github.com/BGrewell/FilterExpressionParser" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="FilterExpressionParser" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -84,6 +98,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build github.com/BGrewell/FilterExpressionParser" />
         <item itemvalue="Go Build.go build FilterExpressionParser" />
         <item itemvalue="Go Build.go build FilterParser" />
       </list>
@@ -98,6 +113,14 @@
       <option name="presentableId" value="Default" />
       <updated>1598882412064</updated>
     </task>
+    <task id="LOCAL-00001" summary="added comment">
+      <created>1598883806685</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598883806685</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,7 +129,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed error handling" />
     <MESSAGE value="fixed bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug" />
+    <MESSAGE value="added comment" />
+    <option name="LAST_COMMIT_MESSAGE" value="added comment" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -122,5 +146,49 @@
       <screen x="0" y="0" width="3840" height="1560" />
     </state>
     <state x="1662" y="694" key="#GOROOT/0.0.3840.1560@0.0.3840.1560" timestamp="1598882449758" />
+    <state x="1465" y="270" key="CommitChangelistDialog2" timestamp="1598883804900">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="1465" y="270" key="CommitChangelistDialog2/0.0.3840.1560@0.0.3840.1560" timestamp="1598883804900" />
+    <state width="929" height="582" key="DebuggerActiveHint" timestamp="1598886861991">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="929" height="582" key="DebuggerActiveHint/0.0.3840.1560@0.0.3840.1560" timestamp="1598886861991" />
+    <state width="1864" height="441" key="GridCell.Tab.0.bottom" timestamp="1598889093513">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="441" key="GridCell.Tab.0.bottom/0.0.3840.1560@0.0.3840.1560" timestamp="1598889093513" />
+    <state width="1864" height="441" key="GridCell.Tab.0.center" timestamp="1598889093513">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="441" key="GridCell.Tab.0.center/0.0.3840.1560@0.0.3840.1560" timestamp="1598889093513" />
+    <state width="1864" height="441" key="GridCell.Tab.0.left" timestamp="1598889093511">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="441" key="GridCell.Tab.0.left/0.0.3840.1560@0.0.3840.1560" timestamp="1598889093511" />
+    <state width="1864" height="441" key="GridCell.Tab.0.right" timestamp="1598889093513">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="441" key="GridCell.Tab.0.right/0.0.3840.1560@0.0.3840.1560" timestamp="1598889093513" />
+    <state width="1864" height="542" key="GridCell.Tab.1.bottom" timestamp="1598889057736">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="542" key="GridCell.Tab.1.bottom/0.0.3840.1560@0.0.3840.1560" timestamp="1598889057736" />
+    <state width="1864" height="542" key="GridCell.Tab.1.center" timestamp="1598889057736">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="542" key="GridCell.Tab.1.center/0.0.3840.1560@0.0.3840.1560" timestamp="1598889057736" />
+    <state width="1864" height="542" key="GridCell.Tab.1.left" timestamp="1598889057736">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="542" key="GridCell.Tab.1.left/0.0.3840.1560@0.0.3840.1560" timestamp="1598889057736" />
+    <state width="1864" height="542" key="GridCell.Tab.1.right" timestamp="1598889057736">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state width="1864" height="542" key="GridCell.Tab.1.right/0.0.3840.1560@0.0.3840.1560" timestamp="1598889057736" />
+    <state x="1412" y="448" key="Vcs.Push.Dialog.v2" timestamp="1598883876936">
+      <screen x="0" y="0" width="3840" height="1560" />
+    </state>
+    <state x="1412" y="448" key="Vcs.Push.Dialog.v2/0.0.3840.1560@0.0.3840.1560" timestamp="1598883876936" />
   </component>
 </project>
