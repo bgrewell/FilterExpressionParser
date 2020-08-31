@@ -157,6 +157,7 @@ func (obj EQ) Eval() (filters IPTablesFilters, err error) {
 		ulFilter = fmt.Sprintf("-p icmp --sport %s", obj.Value)
 		dlFilter = fmt.Sprintf("-p icmp --dport %s", obj.Value)
 	case "proto":
+		// todo: need to have a validator here to make sure proto is a supported value
 		if err != nil {
 			return IPTablesFilters{}, err
 		}

@@ -18,7 +18,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/lib/go-1.13" />
+  <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
@@ -29,18 +29,18 @@
   <component name="ProjectId" id="1Wi7Qga9litiMJGtFk8UaoilKKl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go Application" />
     <property name="GO_FMT" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="/usr/bin/git" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
@@ -89,20 +89,19 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="78f11168-4666-43cb-8220-5f4a181044d3" name="Default Changelist" comment="" />
+      <created>1598882412064</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598882412064</updated>
+    </task>
+    <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed error handling" />
@@ -111,60 +110,17 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+    <environment>
+      <map>
+        <entry key="GOPROXY" value="direct" />
+      </map>
+    </environment>
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state x="1315" y="366" width="800" height="684" key="#Notifications" timestamp="1579644294752">
-      <screen x="0" y="27" width="3440" height="1356" />
+    <state x="1662" y="694" key="#GOROOT" timestamp="1598882449758">
+      <screen x="0" y="0" width="3840" height="1560" />
     </state>
-    <state x="1315" y="366" width="800" height="684" key="#Notifications/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579644294752" />
-    <state x="2414" y="378" width="921" height="819" key="CommitChangelistDialog2" timestamp="1584040122050">
-      <screen x="0" y="27" width="3840" height="1519" />
-    </state>
-    <state x="2414" y="378" width="921" height="819" key="CommitChangelistDialog2/0.27.3840.1519@0.27.3840.1519" timestamp="1584040122050" />
-    <state x="1529" y="600" width="371" height="217" key="Github.ShareDialog" timestamp="1579644280602">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state x="1529" y="600" width="371" height="217" key="Github.ShareDialog/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579644280602" />
-    <state width="3394" height="375" key="GridCell.Tab.0.bottom" timestamp="1579710122222">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="375" key="GridCell.Tab.0.bottom/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579710122222" />
-    <state width="3394" height="375" key="GridCell.Tab.0.center" timestamp="1579710122221">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="375" key="GridCell.Tab.0.center/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579710122221" />
-    <state width="3394" height="375" key="GridCell.Tab.0.left" timestamp="1579710122221">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="375" key="GridCell.Tab.0.left/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579710122221" />
-    <state width="3394" height="375" key="GridCell.Tab.0.right" timestamp="1579710122221">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="375" key="GridCell.Tab.0.right/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579710122221" />
-    <state width="3394" height="461" key="GridCell.Tab.1.bottom" timestamp="1579707140753">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="461" key="GridCell.Tab.1.bottom/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579707140753" />
-    <state width="3394" height="461" key="GridCell.Tab.1.center" timestamp="1579707140753">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="461" key="GridCell.Tab.1.center/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579707140753" />
-    <state width="3394" height="461" key="GridCell.Tab.1.left" timestamp="1579707140753">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="461" key="GridCell.Tab.1.left/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579707140753" />
-    <state width="3394" height="461" key="GridCell.Tab.1.right" timestamp="1579707140753">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state width="3394" height="461" key="GridCell.Tab.1.right/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579707140753" />
-    <state x="2475" y="522" width="800" height="530" key="Vcs.Push.Dialog.v2" timestamp="1584040123583">
-      <screen x="0" y="27" width="3840" height="1519" />
-    </state>
-    <state x="2475" y="522" width="800" height="530" key="Vcs.Push.Dialog.v2/0.27.3840.1519@0.27.3840.1519" timestamp="1584040123583" />
-    <state x="100" y="127" width="3240" height="1156" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1579705257465">
-      <screen x="0" y="27" width="3440" height="1356" />
-    </state>
-    <state x="100" y="127" width="3240" height="1156" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.27.3440.1356/3440.0.2560.1440@0.27.3440.1356" timestamp="1579705257465" />
+    <state x="1662" y="694" key="#GOROOT/0.0.3840.1560@0.0.3840.1560" timestamp="1598882449758" />
   </component>
 </project>
