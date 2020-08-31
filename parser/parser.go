@@ -220,11 +220,11 @@ func SplitExpression(expression string) (FilterNode, error) {
 			nextAnd := strings.Index(expression[marker:], " and ")
 			nextOr := strings.Index(expression[marker:], " or ")
 			if (nextOr != -1) && (nextAnd == -1 || nextOr < nextAnd) {
-				location = nextOr
+				location = nextOr + marker
 				marker = nextOr + 4
 				operator = "or"
 			} else if (nextAnd != -1) && (nextOr == -1 || nextAnd < nextOr) {
-				location = nextAnd
+				location = nextAnd + marker
 				marker = nextAnd + 5
 				operator = "and"
 			} else {
