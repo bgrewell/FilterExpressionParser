@@ -185,16 +185,16 @@ func (obj EQ) Eval() (filters IPTablesFilters, err error) {
 			return IPTablesFilters{}, err
 		}
 		// todo: need to figure out how/if the connbytes-dir would be implemented
-		ulFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode bytes --connbytes %s", obj.Value)
-		dlFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode bytes --connbytes %s", obj.Value)
+		ulFilter = fmt.Sprintf("-m connbytes --connbytes-dir both --connbytes-mode bytes --connbytes %s", obj.Value)
+		dlFilter = fmt.Sprintf("-m connbytes --connbytes-dir both --connbytes-mode bytes --connbytes %s", obj.Value)
 	case "conn.packets":
 		err = validateRangeValue(obj.Value)
 		if err != nil {
 			return IPTablesFilters{}, err
 		}
 		// todo: need to figure out how/if the connbytes-dir would be implemented
-		ulFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode packets --connbytes %s", obj.Value)
-		dlFilter = fmt.Sprintf("-m connbytes --connbytes-dir original --connbytes-mode packets --connbytes %s", obj.Value)
+		ulFilter = fmt.Sprintf("-m connbytes --connbytes-dir both --connbytes-mode packets --connbytes %s", obj.Value)
+		dlFilter = fmt.Sprintf("-m connbytes --connbytes-dir both --connbytes-mode packets --connbytes %s", obj.Value)
 	default:
 		return IPTablesFilters{}, fmt.Errorf("unrecognized field: %s", obj.Key)
 	}
